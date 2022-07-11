@@ -9,7 +9,7 @@ export interface IColorPokemonType {
   ground: string;
   fairy: string;
   fighting: string;
-  psyschic: string;
+  psychic: string;
   rock: string;
   ghost: string;
   ice: string;
@@ -27,7 +27,7 @@ const Pokemon: IColorPokemonType = {
   ground: "#E0C068",
   fairy: "#EE99AC",
   fighting: "#C03028",
-  psyschic: "#F85888",
+  psychic: "#F85888",
   rock: "#B8A038",
   ghost: "#705898",
   ice: "#98D8D8",
