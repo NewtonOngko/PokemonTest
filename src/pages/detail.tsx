@@ -6,28 +6,10 @@ import { GET_DETAILS } from "graphql/queries";
 import { Client } from "@constants";
 import styled from "styled-components"
 import {useRouter} from "next/router";
+import { useToast } from '@chakra-ui/react'
 
 import Link from "next/link";
 import Pokemon, { IColorPokemonType } from "constants/Pokemon";
-
-const TypeColor = [{
-  bug: "#26de81",
-  dragon: "#ffeaa7",
-  electric: "#fed330",
-  fairy: "#FF0069",
-  fighting: "#30336b",
-  fire: "#f0932b",
-  flying: "#81ecec",
-  grass: "#00b894",
-  ground: "#EFB549",
-  ghost: "#a55eea",
-  ice: "#74b9ff",
-  normal: "#95afc0",
-  poison: "#6c5ce7",
-  psychic: "#a29bfe",
-  rock: "#2d3436",
-  water: "#0190FF",
-}];
 
 const Container = styled.div`
     padding: 0 2rem;
@@ -103,7 +85,7 @@ const TypesBox = styled.div`
   color: white;
   background-color: ${(props) => props.color};
 `
-const Button = styled.div`
+const Button = styled.button`
   /* Adapt the colors based on primary prop */
   background: #01f516;
   color: white;
@@ -118,10 +100,15 @@ const Button = styled.div`
   transition: background 0.5s;
 
   &:hover {
-     background: #01f516 radial-gradient(circle, transparent 1%, darkseagreen 1%) center/15000%;
+     background: #01f516 radial-gradient(circle, transparent 1%, gray 1%) center/15000%;
   }
   &:active {
     background-color: yellow;
+    background-size: 100%;
+    transition: background 0s;
+  }
+  &:disabled{
+    background-color: gray;
     background-size: 100%;
     transition: background 0s;
   }
@@ -135,18 +122,57 @@ export default function Detail() {
   const { data, loading } = useQuery(GET_DETAILS, {
     variables: { name: name ,id :id},
   });
+  const [arr,setarr]= useState([])
+  const [disable,setDisable]= useState(false)
+  const toast = useToast()
+  const toastId = 'test-toast'
 
-  const handleCatch=()=>{
+  const handleCatch=(name? : string )=>{
+    console.log('arr',arr)
+    setDisable(true)
     const rand = Math.floor(Math.random() * 2);
-    console.log(rand)
+    const temp=arr
+    console.log('temp',temp)
+    if(rand){
+      temp.push(name)
+      setarr(temp)
+      if (!toast.isActive(toastId)) {
+        toast({
+          id: toastId,
+          status: "success",
+          duration: 2000,
+          title: "Gotcha Catch Em All ",
+          position: "top",
+        });
+      }
+      localStorage.setItem("pokemonData",JSON.stringify(arr))
+    }
+    else{
+      if (!toast.isActive(toastId)) {
+        toast({
+          id : toastId,
+          status:'error',
+          duration:2000,
+          title: 'The Pokemon Has Gone ',
+          position: 'top',
+        })
+      }
+    }
+    setTimeout(() => {
+      setDisable(false);
+    }, 2500);
   }
 
   useEffect(() => {
-    // if(!loading){
-    //   console.log(data)
+    const getLocal= localStorage.getItem("pokemonData")
+    if(getLocal!== "" || null ){
+      setarr(JSON.parse(getLocal) || [])
+    }
+    // else{
+    //   setarr([])
     // }
-    // return;
-  }, [data]);
+    console.log('local',getLocal)
+  }, [disable]);
   return (
     <>
       <Link href={"/"}>
@@ -166,13 +192,13 @@ export default function Detail() {
                 <div style={{alignItems:'center',display:'flex'}}>Types : </div>
                 {data.pokemon?.types.map((x: any, i: any) => {
                    const typePokemon: keyof IColorPokemonType = x.toLowerCase();
-                  return <TypesBox color={Pokemon[typePokemon]}>{x}</TypesBox>;
+                  return <TypesBox key={i} color={Pokemon[typePokemon]}>{x}</TypesBox>;
                 })}
               </Types>
 
               {data.pokemon?.attacks.special.map((x: any, i: any) => {
                 return (
-                  <Moves>
+                  <Moves key={i}>
                     <div>{x.name}</div>
                     <div style={{ width: 10 }} />
                     <div>DMG:{x.damage}</div>
@@ -181,9 +207,9 @@ export default function Detail() {
               })}
               <Title>Next Evolutions</Title>
               <Wrap>
-                {data.pokemon?.evolutions.map((x: any, i: any) => {
+                {data.pokemon?.evolutions?.map((x: any, i: any) => {
                   return (
-                    <WrapIn>
+                    <WrapIn key={i}>
                       <Subtitle>{x.name}</Subtitle>
                       <Image
                         src={x?.image || "/asset/ICQuestion.jpg"}
@@ -194,10 +220,10 @@ export default function Detail() {
                   );
                 })}
               </Wrap>
+              <Button disabled={disable} onClick={()=>handleCatch(data.pokemon?.name)}>Catch The Pokemon</Button>
             </Container>
           )}
         </Main>
-        <Button onClick={handleCatch}>Catch The Pokemon</Button>
       </Container>
     </>
   );

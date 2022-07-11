@@ -50,12 +50,29 @@ const Sideimagediv = styled.div`
 
 export default function App(data: any) {
   const [pokemons, setPokemons] = useState([""]);
+  const [datas,Setdata]=useState([])
+  // const TotalOwned = {}
   // This is how to get Data without SSR
   // const { data: { pokemons = [] } = {}, loading } = useQuery(GET_POKEMONS, {
   //   variables: { first: 811 },
   // });
+
+  const countOwn = (name : String)=>{
+    // const arr = JSON.parse(datas)
+    var value = 0
+    const count = datas?.forEach((x:any) => {
+        if(x===name){
+          value+=1
+        }
+    });
+    return value
+    // console.log(TotalOwned)
+  }
   useEffect(() => {
-    // console.log(data.data.pokemons);
+    const getLocal= localStorage.getItem("pokemonData")
+    if(getLocal!== ""){
+      Setdata(JSON.parse(getLocal))
+    }
     setPokemons(data.data.pokemons);
   }, []);
   return (
@@ -82,7 +99,7 @@ export default function App(data: any) {
                     />
                     <p style={{ paddingLeft: "20px" }}>{pokemon.name}</p>
                   </div>
-                  <p style={{ paddingLeft: "20px" }}>{`Owned : ${0}`}</p>
+                  <p style={{ paddingLeft: "20px" }}>{`Owned : ${countOwn(pokemon.name)}`}</p>
                 </Sideimagediv>
               </Link>
             );
