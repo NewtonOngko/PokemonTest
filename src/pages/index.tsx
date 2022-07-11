@@ -29,7 +29,7 @@ const Title = styled.h1`
 `;
 
 const Sideimagediv = styled.div`
-@media (max-width:2560px){
+
   padding: 1rem;
   margin: 1rem;
   flex-direction: column;
@@ -39,7 +39,7 @@ const Sideimagediv = styled.div`
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 10px;
   border-radius: 0.5rem;
   cursor: pointer;
-}
+
   
   @media (max-width: 425px) {
     padding: 0.6rem;
@@ -59,14 +59,15 @@ const InContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   @media (max-width:425px) {
+    
   }
 `;
 
 const WrapImage =styled.div`
-  padding-left: 10px;
   display: flex;
-  flex: 1;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   @media (max-width:425px) {
     flex-direction: row;
   }
@@ -80,11 +81,16 @@ const Images = styled.img`
     height: 15px;
   }
 `;
-const WrapText = styled.p`
-  font-size: 1rem;
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
-  padding-left: 20px;
-  padding-right: 20px;
+const WrapText = styled.span`
+  @media (max-width: 425px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @media (max-width: 360px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 
 export default function App(data: any) {
