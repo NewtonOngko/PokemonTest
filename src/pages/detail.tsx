@@ -12,18 +12,21 @@ import Link from "next/link";
 import Pokemon, { IColorPokemonType } from "constants/Pokemon";
 
 const Container = styled.div`
-    padding: 0 2rem;
-    display: flex;
+  padding: 1rem 3rem;
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:center;
-`
+  align-items: center;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+`;
 const Main = styled.main`
     min-height: 100vh;
   padding: 2rem 0;
   flex: 1;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
   align-items:center;
 `
@@ -74,9 +77,10 @@ const WrapIn = styled.div`
 `;
 
 const Backbutton = styled.div`
-    margin: 10px 20px;
-    cursor: pointer;
-`
+  background-color: white;
+  margin: 10px 20px;
+  cursor: pointer;
+`;
 const TypesBox = styled.div`
   margin: 0.3rem;
   padding: 0.3rem;
