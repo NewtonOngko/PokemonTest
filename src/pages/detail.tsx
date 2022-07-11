@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { css } from "@emotion/css";
 import { useQuery } from "@apollo/react-hooks";
 import Image from "next/image";
 import { GET_DETAILS } from "graphql/queries";
-import { Client } from "@constants";
 import styled from "styled-components"
 import {useRouter} from "next/router";
 import { useToast } from '@chakra-ui/react'
@@ -172,9 +170,6 @@ export default function Detail() {
     if(getLocal!== "" || null ){
       setarr(JSON.parse(getLocal) || [])
     }
-    // else{
-    //   setarr([])
-    // }
     console.log('local',getLocal)
   }, [disable]);
   return (
@@ -232,12 +227,3 @@ export default function Detail() {
     </>
   );
 }
-
-// export const getStaticProps = async () => {
-//   const client = Client;
-//   const { data } = await client.query({
-//     query: GET_DETAILS,
-//     variables: { first: 811 },
-//   });
-//   return { props: { data } };
-// };

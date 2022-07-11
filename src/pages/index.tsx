@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { css } from "@emotion/css";
-import { useQuery } from "@apollo/react-hooks";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { GET_POKEMONS } from "graphql/queries";
 import { Client } from "@constants";
 import styled from "styled-components"
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 
 const Container = styled.div`
   width: 60rem;
@@ -41,7 +41,7 @@ const Sideimagediv = styled.div`
   cursor: pointer;
 
   
-  @media (max-width: 425px) {
+  @media (max-width: 430px) {
     padding: 0.6rem;
     margin: 0.2rem;
     flex-direction: row;
@@ -58,7 +58,7 @@ const InContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  @media (max-width:425px) {
+  @media (max-width:430px) {
     
   }
 `;
@@ -68,21 +68,21 @@ const WrapImage =styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media (max-width:425px) {
+  @media (max-width:430px) {
     flex-direction: row;
   }
 
 `
-const Images = styled.img`
-  width: 110px;
-  height: 100px;
-  @media (max-width: 425px) {
-    width: 20px;
-    height: 15px;
-  }
-`;
+// const Images = styled.img`
+//   width: 110px;
+//   height: 100%;
+//   @media (max-width: 425px) {
+//     width: 20px;
+//     height: 100%;
+//   }
+// `;
 const WrapText = styled.span`
-  @media (max-width: 425px) {
+  @media (max-width: 430px) {
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -97,7 +97,6 @@ export default function App(data: any) {
   const [pokemons, setPokemons] = useState([""]);
   const [datas,Setdata]=useState([])
   const [width,Setwidth]=useState(0)
-
   const countOwn = (name : String)=>{
     var value = 0
     const count = datas?.forEach((x:any) => {
@@ -119,6 +118,7 @@ export default function App(data: any) {
     }
     window.addEventListener('resize', resize)
     setPokemons(data.data.pokemons);
+
   }, []);
   return (
     <Wrapper>
@@ -138,14 +138,17 @@ export default function App(data: any) {
                 >
                   <Sideimagediv key={i}>
                     <WrapImage>
-                      <Images
-                        src={pokemon?.image || "/asset/ICQuestion.jpg"}
-                      />
+                      <div style={{width:width > 430 ? 110 : 20,height:width > 430 ? 110 : 15}}>
+                        <Image
+                          src={pokemon?.image || "/asset/ICQuestion.jpg"}
+                          width={width > 430 ? 110 : 20}
+                          height={width > 430 ? 100 : 15}
+                          layout={"fixed"}
+                        />
+                      </div>
                       <WrapText>{pokemon.name}</WrapText>
                     </WrapImage>
-                    <WrapText >{`Owned : ${countOwn(
-                      pokemon.name
-                    )}`}</WrapText>
+                    <WrapText>{`Owned : ${countOwn(pokemon.name)}`}</WrapText>
                   </Sideimagediv>
                 </Link>
               );

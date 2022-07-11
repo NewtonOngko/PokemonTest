@@ -13,7 +13,7 @@ const nextConfig = {
   },
   experimental: {
     // Enables the styled-components SWC transform
-    styledComponents: true
+    styledComponents: true,
   }
 };
 
