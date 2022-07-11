@@ -69,7 +69,7 @@ export default function App(data: any) {
     // console.log(TotalOwned)
   }
   useEffect(() => {
-    const getLocal= localStorage.getItem("pokemonData")
+    const getLocal : any= localStorage.getItem("pokemonData")
     if(getLocal!== ""){
       Setdata(JSON.parse(getLocal))
     }

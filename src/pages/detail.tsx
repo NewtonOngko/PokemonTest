@@ -122,7 +122,7 @@ export default function Detail() {
   const { data, loading } = useQuery(GET_DETAILS, {
     variables: { name: name ,id :id},
   });
-  const [arr,setarr]= useState([])
+  const [arr,setarr]= useState([] as any )
   const [disable,setDisable]= useState(false)
   const toast = useToast()
   const toastId = 'test-toast'
@@ -164,7 +164,7 @@ export default function Detail() {
   }
 
   useEffect(() => {
-    const getLocal= localStorage.getItem("pokemonData")
+    const getLocal : any = localStorage.getItem("pokemonData")
     if(getLocal!== "" || null ){
       setarr(JSON.parse(getLocal) || [])
     }
