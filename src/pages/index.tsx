@@ -29,6 +29,7 @@ const Title = styled.h1`
 `;
 
 const Sideimagediv = styled.div`
+@media (max-width:2560px){
   padding: 1rem;
   margin: 1rem;
   flex-direction: column;
@@ -38,8 +39,9 @@ const Sideimagediv = styled.div`
   box-shadow: rgb(0 0 0 / 10%) 0px 2px 10px;
   border-radius: 0.5rem;
   cursor: pointer;
-
-  @media (max-width: 400px) {
+}
+  
+  @media (max-width: 425px) {
     padding: 0.6rem;
     margin: 0.2rem;
     flex-direction: row;
@@ -54,22 +56,36 @@ const Sideimagediv = styled.div`
 
 const InContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  @media (max-width:400px) {
+  @media (max-width:425px) {
   }
 `;
 
 const WrapImage =styled.div`
+  padding-left: 10px;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  @media (max-width:400px) {
-    display: flex;
+  @media (max-width:425px) {
     flex-direction: row;
   }
 
 `
-
+const Images = styled.img`
+  width: 110px;
+  height: 100px;
+  @media (max-width: 425px) {
+    width: 20px;
+    height: 15px;
+  }
+`;
+const WrapText = styled.p`
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  padding-left: 20px;
+  padding-right: 20px;
+`;
 
 export default function App(data: any) {
   const [pokemons, setPokemons] = useState([""]);
@@ -116,16 +132,14 @@ export default function App(data: any) {
                 >
                   <Sideimagediv key={i}>
                     <WrapImage>
-                      <Image
+                      <Images
                         src={pokemon?.image || "/asset/ICQuestion.jpg"}
-                        width={width > 400 ? 110 : 20}
-                        height={width > 400 ? 100 : 15}
                       />
-                      <p style={{ paddingLeft: "20px" }}>{pokemon.name}</p>
+                      <WrapText>{pokemon.name}</WrapText>
                     </WrapImage>
-                    <p style={{ paddingLeft: "20px" }}>{`Owned : ${countOwn(
+                    <WrapText >{`Owned : ${countOwn(
                       pokemon.name
-                    )}`}</p>
+                    )}`}</WrapText>
                   </Sideimagediv>
                 </Link>
               );
